@@ -1,18 +1,18 @@
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
-import { ElementType, useState } from "react";
+import { useState } from "react";
 import { SwitchHorizontalIcon, SwitchVerticalIcon } from "@heroicons/react/solid";
 
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
+// import debounce from "lodash.debounce";
+
 function Markdown() {
   const [text, setText] = useState("");
   const [toggle, setToggle] = useState(true);
 
-  const updateMarkdown = (text: string) => {
-    setText(text);
-  };
+  // const debouncedSetText = useRef(debounce((value) => setText(value), 1000)).current;
 
   const components = {
     code({ node, inline, className, children, ...props }) {
@@ -34,11 +34,11 @@ function Markdown() {
   return (
     <div className="h-screen flex flex-col md:flex-row relative">
       <textarea
-        className={`h-1/2 md:h-screen ${!toggle ? "w-0" : "w-full"} bg-gray-200 p-2`}
+        className={`h-1/2 md:h-screen ${!toggle ? "w-0 h-0 p-0" : "w-full"} bg-gray-200 p-2`}
         value={text}
-        onChange={(e) => updateMarkdown(e.target.value)}
+        onChange={(e) => setText(e.target.value)}
       ></textarea>
-      <div className="h-1/2 md:h-screen w-full p-2 overflow-y-scroll overflow-x-scroll">
+      <div className={` h-1/2 md:h-screen w-full p-2 overflow-y-scroll overflow-x-scroll`}>
         <ReactMarkdown
           remarkPlugins={[gfm]}
           children={text}
